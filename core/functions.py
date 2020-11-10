@@ -7,6 +7,7 @@ import pytesseract
 from core.utils import read_class_names
 from core.config import cfg
 
+# test
 # function to count objects, can return total classes or count per class
 def count_objects(data, by_class = False, allowed_classes = list(read_class_names(cfg.YOLO.CLASSES).values())):
     boxes, scores, classes, num_objects = data
