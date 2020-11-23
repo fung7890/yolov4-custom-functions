@@ -1,0 +1,9 @@
+data/images
+data/video
+craft/result/
+craft/weights/
+frozen_east_text_detection.pb
+detections/
+data/yolov4.weights
+checkpoints/yolov4-416/variables/variables.data-00000-of-00001
+single_image_test_output/

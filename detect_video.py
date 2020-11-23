@@ -1,4 +1,5 @@
-import os
+import os, sys
+
 # comment out below line to enable tensorflow outputs
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import time
@@ -126,14 +127,14 @@ def main(_argv):
         class_names = utils.read_class_names(cfg.YOLO.CLASSES)
 
         # by default allow all classes in .names file
-        allowed_classes = list(class_names.values())
+        # allowed_classes = list(class_names.values())
         
         # custom allowed classes (uncomment line below to allow detections for only people)
-        #allowed_classes = ['person']
+        allowed_classes = ['truck']
 
         # if crop flag is enabled, crop each detection and save it as new image
         if FLAGS.crop:
-            crop_rate = 150 # capture images every so many frames (ex. crop photos every 150 frames)
+            crop_rate = 20 # capture images every so many frames (ex. crop photos every 150 frames)
             crop_path = os.path.join(os.getcwd(), 'detections', 'crop', video_name)
             try:
                 os.mkdir(crop_path)
@@ -172,6 +173,32 @@ def main(_argv):
             out.write(result)
         if cv2.waitKey(1) & 0xFF == ord('q'): break
     cv2.destroyAllWindows()
+
+    # remove empty folders created
+    removeEmptyFolders(os.path.join('C:/Users/Kenny/Documents/GitHub/yolov4-custom-functions/detections/crop/', video_name))
+
+    
+
+def removeEmptyFolders(path, removeRoot=True):
+  'Function to remove empty folders'
+  if not os.path.isdir(path):
+    return
+
+  # remove empty subfolders
+  files = os.listdir(path)
+  if len(files):
+    for f in files:
+      fullpath = os.path.join(path, f)
+      if os.path.isdir(fullpath):
+        removeEmptyFolders(fullpath)
+
+  # if folder empty, delete it
+  files = os.listdir(path)
+  if len(files) == 0 and removeRoot:
+    print("Removing empty folder:", path)
+    os.rmdir(path)
+
+
 
 if __name__ == '__main__':
     try:
