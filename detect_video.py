@@ -158,7 +158,12 @@ def main(_argv):
                 print("Number of {}s: {}".format(key, value))
             image = utils.draw_bbox(frame, pred_bbox, FLAGS.info, counted_classes, allowed_classes=allowed_classes, read_plate=FLAGS.plate)
         else:
-            image = utils.draw_bbox(frame, pred_bbox, FLAGS.info, allowed_classes=allowed_classes, read_plate=FLAGS.plate)
+            # image = utils.draw_bbox(frame, pred_bbox, FLAGS.info, allowed_classes=allowed_classes, read_plate=FLAGS.plate)
+
+            # don't show labels on bbox
+            image = utils.draw_bbox(frame, pred_bbox, FLAGS.info, allowed_classes=allowed_classes, read_plate=FLAGS.plate, show_label=False)
+
+            
         
         fps = 1.0 / (time.time() - start_time)
         print("FPS: %.2f" % fps)

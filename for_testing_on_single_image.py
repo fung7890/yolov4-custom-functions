@@ -10,14 +10,16 @@ import glob
 # cap = cv2.VideoCapture(0)
 
 net = cv2.dnn.readNet("frozen_east_text_detection.pb")
+# change for which image to test on in single_testing_images dir
+image = cv2.imread('./single_testing_images/cropped5.jpg')
 
 
 def crop_object(img, startX, startY, endX, endY, count):
     cropped_img = img[int(startY):int(endY), int(startX):int(endX)]
-    ocr_for_crop(cropped_img, os.path.join(os.getcwd(), "single_image_test_output", "cropped%s.txt" % count))
+    ocr_for_crop(cropped_img, os.path.join(
+        os.getcwd(), "single_image_test_output", "cropped%s.txt" % count))
     cv2.imshow("Cropped Image", cropped_img)
     cv2.imwrite("single_image_test_output/cropped%s.jpg" % count, cropped_img)
-
 
 
 def text_detector(image):
@@ -108,8 +110,6 @@ def text_detector(image):
     return orig
 
 
-image = cv2.imread('./single_testing_images/container5.jpg')
-
 array = [image]  # ,image2,image3,image4,image5,image6]
 
 # clean up before use
@@ -123,10 +123,10 @@ for i in range(0, 1):
         imageX = imageO
         orig = text_detector(imageO)
         cv2.imshow("Text Detection", orig)
-        cv2.imwrite("./single_image_test_output/full_image_text_detected.jpg", orig)
+        cv2.imwrite(
+            "./single_image_test_output/full_image_text_detected.jpg", orig)
         k = cv2.waitKey(30) & 0xff
         if k == 27:
             break
 
 cv2.destroyAllWindows()
-

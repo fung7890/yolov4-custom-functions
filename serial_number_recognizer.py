@@ -4,28 +4,40 @@ import pytesseract
 # specifiy tesseract path
 pytesseract.pytesseract.tesseract_cmd = 'C:\Program Files\Tesseract-OCR\\tesseract.exe'
 
+
 def ocr_for_crop(img, path):
     print("start of ocr")
+
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    cv2.imshow("grayed", img)
+    cv2.waitKey(0)
+
     gray = cv2.resize(img, None, fx=3, fy=3, interpolation=cv2.INTER_CUBIC)
+    cv2.imshow("resize", gray)
+    cv2.waitKey(0)
+
     blur = cv2.GaussianBlur(gray, (5, 5), 0)
+    cv2.imshow("gaussian blur", blur)
+    cv2.waitKey(0)
 
     gray = cv2.medianBlur(gray, 3)
+    cv2.imshow("median blur", gray)
+    cv2.waitKey(0)
 
     # perform otsu thresh (using binary inverse since opencv contours work better with white text)
-
     ret, thresh = cv2.threshold(
         blur, 0, 255, cv2.THRESH_OTSU | cv2.THRESH_BINARY_INV)
-    
+
     threshS = cv2.resize(thresh, (960, 540))                    # Resize image
 
-    # cv2.imshow("Otsu", threshS)
-    # cv2.waitKey(0)
-    rect_kern = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+    cv2.imshow("Otsu", threshS)
+    cv2.waitKey(0)
 
+    rect_kern = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
     # apply dilation
     dilation = cv2.dilate(thresh, rect_kern, iterations=1)
-
+    cv2.imshow("dialation", dilation)
+    cv2.waitKey(0)
 
     # Adding custom options
     custom_config = r'--oem 3 --psm 3'
@@ -38,4 +50,3 @@ def ocr_for_crop(img, path):
         f.close()
     print("output ", output)
     return output
-

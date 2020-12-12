@@ -6,9 +6,11 @@ import tensorflow as tf
 import pytesseract
 from core.utils import read_class_names
 from core.config import cfg
-# from text_detection import text_detector
+# for EAST text detection
+from text_detection import text_detector
 from serial_number_recognizer import ocr_for_crop
-from craft.text_detection import text_detector
+# for CRAFT text detection
+# from craft.text_detection import text_detector
 # test
 # function to count objects, can return total classes or count per class
 
@@ -68,7 +70,7 @@ def crop_objects(img, data, path, allowed_classes):
             # cv2.imwrite(img_path, cropped_img)
 
             # using EAST - uncomment line below and import for EAST text detection algorithm
-            # text_crop = text_detector(cropped_img)
+            text_crop = text_detector(cropped_img)
 
             # using CRAFT 
             # text_crop = text_detector(cropped_img, i)

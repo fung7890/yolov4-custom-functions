@@ -244,7 +244,9 @@ def draw_bbox(image, bboxes, info = False, counted_classes = None, show_label=Tr
                             cv2.FONT_HERSHEY_SIMPLEX, 1.25, (255,255,0), 2)
 
             bbox_color = colors[class_ind]
-            bbox_thick = int(0.6 * (image_h + image_w) / 600)
+            # bbox_thick = int(0.6 * (image_h + image_w) / 600)
+            bbox_thick = int(6) # thicker lines 
+
             c1, c2 = (coor[0], coor[1]), (coor[2], coor[3])
             cv2.rectangle(image, c1, c2, bbox_color, bbox_thick)
 
